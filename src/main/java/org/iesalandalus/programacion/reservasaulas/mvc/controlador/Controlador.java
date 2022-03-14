@@ -8,8 +8,8 @@ import org.iesalandalus.programacion.reservasaulas.mvc.vista.IVista;
 // creamos clse controlador cons los atributos
 public class Controlador implements IControlador {
 
-	IVista vista;
-	IModelo modelo;
+	private IVista vista;
+	private IModelo modelo;
 // constructor
 	public Controlador(IModelo modelo, IVista vista) {
 		if (modelo == null) {
@@ -24,11 +24,14 @@ public class Controlador implements IControlador {
 	}
 // cremaos comenzar
 	public void comenzar() {
+		// llamamos al modelo y comenzar para que leea los datos
+		modelo.comenzar();
 		vista.comenzar();
 	}
 // creamso terminal
 	public void terminar() {
-		System.out.println("¡ADIOS!");
+		//llamamos al modelo terminar para grabar los datos antes de salir
+		modelo.terminar();		
 	}
 // creamos insertarAula
 	public void insertarAula(Aula aula) throws OperationNotSupportedException {

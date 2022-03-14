@@ -1,6 +1,12 @@
 package org.iesalandalus.programacion.reservasaulas.mvc.modelo.dominio;
 
-public class Aula {
+import java.io.Serializable;
+
+public class Aula implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// creamos el atributo
 	private static final float PUNTOS_POR_PUESTO = 0.5f;
 	private static final int MIN_PUESTOS = 10;
@@ -33,7 +39,7 @@ public class Aula {
 			this.nombre = nombre;
 		}
 	}
-	
+	// creamos getNombre
 	public String getNombre() {
 		return nombre;
 	}

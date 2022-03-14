@@ -2,10 +2,12 @@ package org.iesalandalus.programacion.reservasaulas.mvc.modelo.dominio;
 
 import java.time.LocalDate;
 
-import com.google.common.base.Objects;
-
 public class PermanenciaPorTramo extends Permanencia{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int PUNTOS = 10;
 	private Tramo tramo;
 	
@@ -40,9 +42,12 @@ public class PermanenciaPorTramo extends Permanencia{
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(getDia(), tramo);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tramo == null) ? 0 : tramo.hashCode());
+		result = prime * result + ((super.getDia() == null) ? 0 : super.getDia().hashCode());
+		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -52,9 +57,19 @@ public class PermanenciaPorTramo extends Permanencia{
 		if (getClass() != obj.getClass())
 			return false;
 		PermanenciaPorTramo other = (PermanenciaPorTramo) obj;
-		return Objects.equal(getDia(), other.getDia()) && tramo == other.tramo;
+		if (tramo == null) {
+			if (other.tramo != null)
+				return false;
+		} else if (!tramo.equals(other.tramo))
+			return false;
+		if (super.getDia() == null) {
+			if (other.getDia() != null)
+				return false;
+		} else if (!super.getDia().equals(other.getDia()))
+			return false;
+		return true;
 	}
-
+	
 	@Override
 	public String toString() {
 		return super.toString() + ", tramo=" + tramo;

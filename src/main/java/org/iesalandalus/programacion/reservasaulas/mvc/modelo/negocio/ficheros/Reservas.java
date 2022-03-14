@@ -1,5 +1,14 @@
-package org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.memoria;
+package org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.ficheros;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.FileSystemNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,6 +28,7 @@ import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.IReservas;
 public class Reservas implements IReservas{
 	
 	private static final float MAX_PUNTOS_PROFESOR_MES = 200.f;
+	private static final String NOMBRE_FICHERO_RESERVAS="datos/reservas.dat";
 	private List<Reserva> coleccionReservas;
 	
 	// Creamos el constructor 
@@ -32,6 +42,59 @@ public class Reservas implements IReservas{
 		}
 		setReservas(reservas);
 	}
+	// llama a leer y este accede a los ficheros
+	public void comenzar() {
+		leer();
+	}
+	// Leer leera los ficheros
+	private void leer() {
+		File ficheroReservas = new File (NOMBRE_FICHERO_RESERVAS);
+		//excepciones
+		try (ObjectInputStream entrada = new ObjectInputStream (new FileInputStream(ficheroReservas))) {
+			Reserva reserva = null;
+			do {
+				// asignamos el profesor que viene del imputo string y le asignamos (csateamos), cuando lee el objetos le decimos que es de tipo profesor
+				reserva = (Reserva) entrada.readObject();
+				// insertamos los profesores 
+				insertar(reserva);
+			}while(reserva != null);			
+			// ordenamos los catch para que salten y no den errores
+			// si ponemos IOException nos dara error pq salta en un orden que no es el adecuado
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: Fichero no encontrado.");
+			e.printStackTrace();
+		} catch (EOFException e) {
+			System.out.println("Reservas leidas con éxito");
+		} catch (IOException e) {
+			System.out.println("ERROR: Algo salió mal.");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("ERROR: No se ha encontrado la clase leer.");
+			e.printStackTrace();
+		} catch (OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} 
+	}
+	// creamos terminar
+	@Override
+	public void terminar() {
+		escribir();
+	}
+	//Creamos escribir
+	private void escribir() {
+		File ficheroProfesores = new File (NOMBRE_FICHERO_RESERVAS);
+		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroProfesores))){
+			for (Reserva reserva : coleccionReservas) {
+				salida.writeObject(reserva);
+			}
+			System.out.println("El fichero reservas fue creado correctamente.");			
+		}catch (FileSystemNotFoundException e){
+			System.out.println("ERROR: No se puede crear el fichero reservas");
+		}catch (IOException e) {
+			System.out.println("ERROR: Algo salió mal");
+		}
+	}
 	
 	private void setReservas(IReservas reservas) {
 		if (reservas == null) {
@@ -39,6 +102,7 @@ public class Reservas implements IReservas{
 		}
 		this.coleccionReservas = reservas.getReservas();
 	}
+
 	
 	// creamos copia profunda
 	private List<Reserva> copiaProfundaReservas() {
@@ -142,8 +206,9 @@ public class Reservas implements IReservas{
 		}
 		Iterator<Reserva> it = coleccionReservas.iterator();
 		while (it.hasNext()) {
-			if (it.next().equals(reserva)) {
-				return new Reserva(reserva);
+			Reserva reservaBuscada = it.next();
+			if (reservaBuscada.equals(reserva)) {
+				return new Reserva(reservaBuscada);
 			}
 		}
 		return null;
@@ -271,17 +336,5 @@ public class Reservas implements IReservas{
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void comenzar() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void terminar() {
-		// TODO Auto-generated method stub
-		
 	}
 }

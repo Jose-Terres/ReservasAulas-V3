@@ -5,21 +5,36 @@ import java.util.List;
 import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.reservasaulas.mvc.modelo.dominio.*;
-import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.memoria.Aulas;
-import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.memoria.Profesores;
-import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.memoria.Reservas;
+import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.IAulas;
+import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.IProfesores;
+import org.iesalandalus.programacion.reservasaulas.mvc.modelo.negocio.IReservas;
 
 public class Modelo implements IModelo {
 	// creamos la clase y le asignamos los atributos, en cantidad constante  le pongo 10 
-		private Profesores profesores;
-		private Aulas aulas;
-		private Reservas reservas;
+		private IProfesores profesores;
+		private IAulas aulas;
+		private IReservas reservas;
 		
-		public Modelo() {
-			profesores = new Profesores();
-			aulas = new Aulas();
-			reservas = new Reservas();
+		// constructor
+		public Modelo(IFuenteDatos fuenteDatos) {
+			profesores = fuenteDatos.crearProfesores();
+			aulas = fuenteDatos.crearAulas();
+			reservas = fuenteDatos.crearReservas();
 		}
+		
+		@Override
+		public void comenzar() {
+			profesores.comenzar();
+			aulas.comenzar();
+			reservas.comenzar();			
+		}
+		@Override
+		public void terminar() {
+			profesores.terminar();
+			aulas.terminar();
+			reservas.terminar();
+		}
+		
 		// llamamos a los metos que nos indica en el diagrama de clases
 		public List<Aula> getAulas() {
 			return aulas.getAulas();
@@ -109,3 +124,4 @@ public class Modelo implements IModelo {
 			return reservas.consultarDisponibilidad(aula, permanencia);
 		}
 }
+

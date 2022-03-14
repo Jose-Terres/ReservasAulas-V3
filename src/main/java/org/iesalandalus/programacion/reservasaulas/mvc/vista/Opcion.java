@@ -103,7 +103,7 @@ public enum Opcion {
 	}
 	
 	public String toString() {
-		return String.format("%d.- %s", ordinal() + 1, mensaje);
+		return String.format("%d.- %s", ordinal(), mensaje);
 	}
 
 	public static Opcion getOpcionSegunOrdinal(int opcion) {

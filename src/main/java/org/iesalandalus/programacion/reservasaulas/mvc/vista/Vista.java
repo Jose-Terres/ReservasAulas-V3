@@ -43,6 +43,7 @@ public class Vista implements IVista {
 	// cremos salir
 	public void salir() {
 		controlador.terminar();
+		System.out.println("ADIOS");
 	}
 
 	// creamos insertarAula

@@ -1,7 +1,13 @@
 package org.iesalandalus.programacion.reservasaulas.mvc.modelo.dominio;
 
-public class Reserva {
+import java.io.Serializable;
 
+public class Reserva implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// los atributos serian los objetos a los que señalan las flechas que son
 	// Permanencia Profesor y Aula
 	private Profesor profesor;

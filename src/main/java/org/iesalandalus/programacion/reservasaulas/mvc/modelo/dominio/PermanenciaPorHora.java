@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import com.google.common.base.Objects;
-
 public class PermanenciaPorHora extends Permanencia {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// atributos
 	private static final int PUNTOS = 3;
 	private static final LocalTime HORA_INICIO = LocalTime.of(8, 0);
@@ -51,9 +53,12 @@ public class PermanenciaPorHora extends Permanencia {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(getDia(), hora);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((hora == null) ? 0 : hora.hashCode());
+		result = prime * result + ((super.getDia() == null) ? 0 : super.getDia().hashCode());
+		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,7 +68,17 @@ public class PermanenciaPorHora extends Permanencia {
 		if (getClass() != obj.getClass())
 			return false;
 		PermanenciaPorHora other = (PermanenciaPorHora) obj;
-		return Objects.equal(getDia(), other.getDia()) && Objects.equal(hora, other.hora);
+		if (hora == null) {
+			if (other.getHora() != null)
+				return false;
+		} else if (!hora.equals(other.getHora()))
+			return false;
+		if (super.getDia() == null) {
+			if (other.getDia() != null)
+				return false;
+		} else if (!super.getDia().equals(other.getDia()))
+			return false;
+		return true;
 	}
 
 

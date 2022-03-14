@@ -32,16 +32,18 @@ public class Consola {
 	
 	public  static void mostrarCabecera(String mensaje) {
 		int longitudmensaje = mensaje.length();
-		for (int i = 0; i>longitudmensaje; i++ ) {
-			System.out.println("-");
+		System.out.println(mensaje);
+		for (int i = 0; i<longitudmensaje; i++ ) {
+			System.out.print("-");
 		}
+		System.out.println();
 	}
 	// opcion que nos da empezaria por 1 al ponerle el -1 en opcion leng asi que ahora tenemos que ponerle tambien -1 a la entrada entero para que conincida con el valor que nso introducen
 	public static int elegirOpcion() {
 		int opcion;
 		do {
-			System.out.println("Elige una opción");
-			opcion = Entrada.entero() - 1;
+			System.out.print("Elige una opción: ");
+			opcion = Entrada.entero();
 		}while (!Opcion.esOrdinalValido(opcion));
 		return opcion;
 	}

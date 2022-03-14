@@ -11,6 +11,10 @@ import org.iesalandalus.programacion.reservasaulas.mvc.modelo.dominio.Reserva;
 
 public interface IModelo {
 	
+	public void comenzar();
+	
+	public void terminar();
+	
 	public List<Aula> getAulas();
 	
 	public List<String> representarAulas();
