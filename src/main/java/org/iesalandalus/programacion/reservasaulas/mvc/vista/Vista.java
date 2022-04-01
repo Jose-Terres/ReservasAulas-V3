@@ -156,7 +156,10 @@ public class Vista implements IVista {
 	public void realizarReserva() {
 		Consola.mostrarCabecera("REALIZAR RESERVA");
 		try {
-			controlador.realizarReserva(Consola.leerReserva());
+			Reserva reserva = Consola.leerReserva();
+			Profesor profesor = controlador.buscarProfesor(/*PROFESOR FICTICIO*/reserva.getProfesor());
+			Aula aula = controlador.buscarAula(reserva.getAula());
+			controlador.realizarReserva(new Reserva(profesor, aula, reserva.getPermanencia()));
 			System.out.println("Reserva realizada con éxito.");
 		} catch (OperationNotSupportedException | NullPointerException e){
 			System.out.println(e.getMessage());
